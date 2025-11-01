@@ -21,13 +21,13 @@
 		background-color: rgb(252,232,201);
 		color: rgb(154,91,53); 
 		margin:30px ;
-		position: relative; /* 形成独立层叠上下文，层级高于默认背景 */
+		position: relative; /* 形成独立层叠上下文 */
 		z-index: 1; /* 明确设置层级*/
 		display: flex; 
 		justify-content: center;
 		align-items: center; 
 		font-size: 50px; 
-		text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* 文字阴影 */	
+		text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 	    float: left;
     }
 	.chat{
@@ -47,17 +47,17 @@
 	}
 	.character-container {
 			position: fixed; /* 固定定位相对于窗口 */
-			right: 20px;    /* 距离右边缘20px */
-			bottom: 20px;   /* 距离下边缘20px */
+			right: 20px;   
+			bottom: 20px;   
 			z-index: 2;     /* 确保显示在其他元素上方 */
 			background-color: rgb(252,232,201);
 		}
-		/* 仅图片设置边框样式 */
+	
 		.character-img {
 			border: 20px solid rgba(228,193,140);
 			width: 30vw;
 			height:30vw;
-			/* 可根据需要添加图片尺寸限制 */
+		
 			/* width: 200px; */
 		}
     </style>
@@ -74,3 +74,4 @@
  
 </body>
 </html>
+
