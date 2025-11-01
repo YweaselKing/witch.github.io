@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>女巫的魔药坩埚</title>
+<meta charset="utf-8" />
+<style type="text/css">
+    body{	      
+		background-image:url("images/background01.png");
+		margin: 0;
+		padding: 0;
+		min-height: 100vh;
+      	background-repeat:no-repeat;
+		background-position: center;
+		background-size: cover;
+		background-attachment: fixed;
+    }
+    .label{
+	    width:120px;
+		height: 110px;
+		border: 16px solid rgba(228,193,140);
+		background-color: rgb(252,232,201);
+		color: rgb(154,91,53); 
+		margin:30px ;
+		position: relative; /* 形成独立层叠上下文，层级高于默认背景 */
+		z-index: 1; /* 明确设置层级*/
+		display: flex; 
+		justify-content: center;
+		align-items: center; 
+		font-size: 50px; 
+		text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* 文字阴影 */	
+	    float: left;
+    }
+	.chat{
+		width:65%;
+		height: 20vh;
+		border: 16px solid rgba(228,193,140);
+		background-color: rgb(252,232,201);
+		color: rgb(154,91,53); 
+		display: flex;
+		justify-content: center;
+		font-size: 5vh;
+		padding-top:50px;
+		position: relative;
+		margin-left: 1.5%;
+		top: calc(100vh - 570px); 
+		text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+	}
+	.character-container {
+			position: fixed; /* 固定定位相对于窗口 */
+			right: 20px;    /* 距离右边缘20px */
+			bottom: 20px;   /* 距离下边缘20px */
+			z-index: 2;     /* 确保显示在其他元素上方 */
+			background-color: rgb(252,232,201);
+		}
+		/* 仅图片设置边框样式 */
+		.character-img {
+			border: 20px solid rgba(228,193,140);
+			width: 30vw;
+			height:30vw;
+			/* 可根据需要添加图片尺寸限制 */
+			/* width: 200px; */
+		}
+    </style>
+</head>
+<body>
+ <div class="label">属性</div>
+ <div class="label">背包</div>
+ <div class="label">提示</div>
+ <div class="label">设置</div>
+ <div class="chat">接下来要干什么呢。。。。</div>
+ <div class="character-container">
+	 <img class="character-img" src="images/character01.png" />
+	 </div>
+ 
+</body>
+</html>
