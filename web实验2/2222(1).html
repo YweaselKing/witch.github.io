@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>炼药提示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background-image: url('https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/ba7b0ac700794d6eb61ae471f3f33850.jpg~tplv-a9rns2rl98-24:720:720.image?rcl=20251103165146D48E924E33F5EAB3CD59&rk3s=8e244e95&rrcfp=8a172a1a&x-expires=1762764706&x-signature=6v1HoUlwJ53n0CAhzWtjyEjJ4dc%3D');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: "Microsoft YaHei", sans-serif;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 标题样式（新增边框） */
+        .page-title {
+            color: rgb(154, 91, 53);
+            font-size: 60px;
+            font-weight: bold;
+            margin-bottom: 60px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            /* 新增边框样式（与提示框一致） */
+            border: 4px solid rgba(228, 193, 140); /* 边框颜色和粗细与下方框一致 */
+            background-color: rgb(252, 232, 201); /* 背景色与下方框一致 */
+            padding: 15px 40px; /* 内边距让边框围绕文字更协调 */
+            border-radius: 10px; /* 圆角与下方框一致 */
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2); /* 阴影效果与下方框一致 */
+        }
+
+        /* 单个提示框样式（未修改） */
+        .tip-box {
+            background-color: rgb(252, 232, 201);
+            border: 4px solid rgba(228, 193, 140);
+            border-radius: 10px;
+            padding: 25px 40px;
+            margin: 20px 0;
+            min-width: 600px;
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        /* 提示文字样式（未修改） */
+        .tip-item {
+            color: rgb(154, 91, 53);
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        /* 返回按钮样式（未修改） */
+        .back-btn {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            color: rgb(154, 91, 53);
+            font-size: 32px;
+            font-weight: bold;
+            border: 4px solid rgba(228, 193, 140);
+            background-color: rgb(252, 232, 201);
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        /* 适配手机屏幕（同步调整标题样式） */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 40px;
+                padding: 10px 20px; /* 小屏幕调整内边距 */
+            }
+            .tip-box {
+                min-width: auto;
+                width: 90%;
+                padding: 15px 20px;
+            }
+            .tip-item {
+                font-size: 24px;
+            }
+            .back-btn {
+                font-size: 24px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 带边框的标题 -->
+    <h1 class="page-title">提示</h1>
+
+    <!-- 单个提示框 -->
+    <div class="tip-box">
+        <div class="tip-item">试着将不同材料投入炼药锅中</div>
+    </div>
+
+    <div class="tip-box">
+        <div class="tip-item">不同材料组合会使药水的效果不同</div>
+    </div>
+
+    <div class="tip-box">
+        <div class="tip-item">小心爆炸</div>
+    </div>
+
+    <!-- 返回按钮 -->
+    <button class="back-btn">返回</button>
+</body>
+</html>
