@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>女巫的魔药坩埚</title>
+<meta charset="utf-8" />
+<style type="text/css">
+    body{	      
+		background-image:url("images/background01.png");
+		margin: 0;
+		padding: 0;
+		min-height: 100vh;
+        background-repeat:no-repeat;
+		background-position: center;
+		background-size: cover;
+		background-attachment: fixed;
+    }
+    /* 标签大小保持不变 */
+    .label{
+	    width:120px;
+		height: 110px;
+		border: 16px solid rgba(228,193,140);
+		background-color: rgb(252,232,201);
+		color: rgb(154,91,53); 
+		margin:30px ;
+		position: relative; 
+		z-index: 1; 
+		display: flex; 
+		justify-content: center;
+		align-items: center; 
+		font-size: 50px; 
+		text-shadow: 0 2px 4px rgba(0,0,0,0.5); 
+	    float: left;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .label:hover{
+        transform: scale(1.1);
+        box-shadow: 0 0 15px 5px rgba(255, 215, 0, 0.7);
+        z-index: 10;
+    }
+	/* 文字对话框布局保持不变 */
+	.chat{
+		width:65%;
+		height: 20vh;
+		border: 16px solid rgba(228,193,140);
+		background-color: rgb(252,232,201);
+		color: rgb(154,91,53); 
+		display: flex;
+		justify-content: center;
+		font-size: 5vh;
+		padding-top:50px;
+		position: relative;
+		margin-left: 1.5%;
+		top: calc(100vh - 570px); 
+		text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+	}
+	/* 角色图像布局保持不变 */
+	.character-container {
+			position: fixed;
+			right: 20px;  
+			bottom: 20px;  
+			z-index: 2;
+			background-color: rgb(252,232,201);
+		}
+		.character-img {
+			border: 20px solid rgba(228,193,140);
+			width: 30vw;
+			height:30vw;
+		}
+
+    /* 模态框基础样式 - 改为窗口一半大小并支持缩放 */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 100;
+        justify-content: center;
+        align-items: center;
+    }
+    .modal-content {
+        background-color: rgb(252,232,201);
+        border: 16px solid rgba(228,193,140);
+        padding: 30px;
+        width: 50vw;  /* 窗口一半宽度 */
+        max-width: 900px;
+        height: 50vh;  /* 窗口一半高度 */
+        max-height: 700px;
+        border-radius: 10px;
+        position: relative;
+        color: rgb(154,91,53);
+        overflow-y: auto;  /* 内容过长时滚动 */
+        font-size: 1.5vw;  /* 字体随窗口缩放 */
+        min-font-size: 16px; /* 最小字体大小 */
+    }
+    /* 模态框标题样式 - 随窗口缩放 */
+    .modal-content h2 {
+        font-size: 2.5vw;
+        min-font-size: 24px;
+        margin-top: 0;
+    }
+    .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 30px;
+        cursor: pointer;
+    }
+
+    /* 背包特有样式修改 */
+    .backpack-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);  /* 固定4列 */
+        gap: 20px;
+        margin-top: 20px;
+        padding: 10px;
+    }
+    .item-slot {
+        position: relative;
+        width: 100%;  /* 占满网格宽度 */
+        padding-top: 100%;  /* 正方形比例，随容器缩放 */
+        cursor: pointer;
+    }
+    .item-thumbnail {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: all 0.3s ease;
+    }
+    .item-slot:hover .item-thumbnail {
+        transform: scale(1.1);
+        box-shadow: 0 0 15px 3px rgba(255, 215, 0, 0.8);
+        border-radius: 5px;
+    }
+    .item-count {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        background-color: rgba(154,91,53, 0.8);
+        color: white;
+        font-size: 1.2vw;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    /* 物品名称显示在左上角 */
+    .item-name {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        background-color: rgba(252,232,201, 0.9);
+        color: rgb(154,91,53);
+        font-size: 1vw;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-weight: bold;
+    }
+
+    /* 物品详情模态框 */
+    .item-detail-modal .modal-content {
+        display: flex;
+        gap: 30px;
+        max-width: 800px;
+        height: auto;  /* 详情框高度自适应 */
+        max-height: 80vh;  /* 最大高度限制 */
+    }
+    .item-detail-img {
+        width: 200px;
+        height: 200px;
+        object-fit: contain;
+    }
+    .item-detail-info {
+        flex: 1;
+    }
+    .item-detail-name {
+        font-size: 28px;
+        margin-bottom: 15px;
+        border-bottom: 2px solid rgba(154,91,53,0.5);
+        padding-bottom: 10px;
+    }
+    .item-detail-desc {
+        font-size: 18px;
+        line-height: 1.6;
+    }
+</style>
+</head>
+<body>
+ <div class="label" data-modal="attribute">属性</div>
+ <div class="label" data-modal="backpack">背包</div>
+ <div class="label" data-modal="hint">提示</div>
+ <div class="label" data-modal="setting">设置</div>
+ <div class="chat">接下来要干什么呢。。。。</div>
+ <div class="character-container">
+	 <img class="character-img" src="images/character01.png" />
+ </div>
+
+ <!-- 属性框 -->
+ <div id="attribute-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>属性面板</h2>
+        <p>这里是角色的属性信息</p>
+        <ul>
+            <li>魔法值: 100/100</li>
+            <li>生命值: 80/80</li>
+            <li>耐力值: 60/60</li>
+            <li>等级: 1</li>
+        </ul>
+    </div>
+ </div>
+
+ <!-- 背包框 -->
+ <div id="backpack-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>背包</h2>
+        <div class="backpack-grid" id="backpack-grid">
+            <!-- 背包物品会通过JS动态生成 -->
+        </div>
+    </div>
+ </div>
+
+ <!-- 提示框 -->
+ <div id="hint-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>提示</h2>
+        <p>当前任务：寻找制作治疗药水的材料</p>
+        <p>提示：治疗药水需要曼德拉草和月光露水</p>
+    </div>
+ </div>
+
+ <!-- 设置框 -->
+ <div id="setting-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>设置</h2>
+        <p>音量：<input type="range" min="0" max="100" value="80"></p>
+        <p>画质：<select>
+            <option>高</option>
+            <option selected>中</option>
+            <option>低</option>
+        </select></p>
+        <p>音效：<input type="checkbox" checked> 开启</p>
+    </div>
+ </div>
+
+ <!-- 物品详情模态框 -->
+ <div id="item-detail-modal" class="modal item-detail-modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <img class="item-detail-img" id="detail-img" src="" alt="物品图片">
+        <div class="item-detail-info">
+            <h3 class="item-detail-name" id="detail-name"></h3>
+            <p class="item-detail-desc" id="detail-desc"></p>
+        </div>
+    </div>
+ </div>
+
+ <script>
+    // 物品数据
+    const items = [
+        {
+            id: 1,
+            name: "金粒",
+            count: 3,
+            description: "贵金属，拥有稳定的性质。价格昂贵，请谨慎取用！！"
+        },
+        {
+            id: 2,
+            name: "银汤勺",
+            count: 1,
+            description: "贵金属，与魔力拥有良好的相性，被广泛的应用在通灵，法器制作，魔药炼成等领域中。目前你的银耗材已见底，不得不拿出了这把勺子"
+        },
+        {
+            id: 3,
+            name: "铜锭",
+            count: 4,
+            description: "价格亲民的金属，但相比金银材料效果欠佳。智慧地取用它，也许可以大大节省成本！！"
+        },
+		{
+		    id: 4,
+		    name: "月光露水",
+		    count: 999,
+		    description: "你选中一个灵气充沛的满月之夜，特地收集的数瓶月光露水，大概可以保障接下来小半年的魔力媒介供应"
+		}
+    ];
+
+    // 生成背包物品 - 增加物品名称显示
+    const backpackGrid = document.getElementById('backpack-grid');
+    items.forEach(item => {
+        const slot = document.createElement('div');
+        slot.className = 'item-slot';
+        slot.innerHTML = `
+            <span class="item-name">${item.name}</span>
+            <img src="packsack/PacksackGoods-${item.id}.png" 
+                 alt="${item.name}" 
+                 class="item-thumbnail"
+                 data-id="${item.id}">
+            <span class="item-count">${item.count}</span>
+        `;
+        backpackGrid.appendChild(slot);
+    });
+
+    // 模态框控制
+    const labels = document.querySelectorAll('.label');
+    const modals = document.querySelectorAll('.modal');
+    const closeBtns = document.querySelectorAll('.close-btn');
+    const itemDetailModal = document.getElementById('item-detail-modal');
+    const detailImg = document.getElementById('detail-img');
+    const detailName = document.getElementById('detail-name');
+    const detailDesc = document.getElementById('detail-desc');
+
+    // 标签点击显示对应模态框
+    labels.forEach(label => {
+        label.addEventListener('click', () => {
+            const modalId = label.getAttribute('data-modal') + '-modal';
+            document.getElementById(modalId).style.display = 'flex';
+        });
+    });
+
+    // 关闭按钮事件
+    closeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.closest('.modal').style.display = 'none';
+        });
+    });
+
+    // 点击外部关闭模态框
+    window.addEventListener('click', (e) => {
+        modals.forEach(modal => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+
+    // 物品点击显示详情
+    document.querySelectorAll('.item-thumbnail').forEach(thumb => {
+        thumb.addEventListener('click', (e) => {
+            e.stopPropagation(); // 防止事件冒泡关闭背包
+            const itemId = parseInt(thumb.getAttribute('data-id'));
+            const item = items.find(i => i.id === itemId);
+            
+            if (item) {
+                detailImg.src = `packsack/PacksackGoods-${item.id}.png`;
+                detailImg.alt = item.name;
+                detailName.textContent = item.name;
+                detailDesc.textContent = item.description;
+                itemDetailModal.style.display = 'flex';
+            }
+        });
+    });
+ </script>
+</body>
+</html>
